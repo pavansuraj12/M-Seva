@@ -661,14 +661,13 @@ insert into accounts (name, sort_order) values
   ('Cash',9),('Dhanhind',10),('Vishaka',11),('HDFC 2',12)
 on conflict (name) do nothing;`;
 
-let SB_URL = localStorage.getItem('sb_url') || '';
-let SB_KEY = localStorage.getItem('sb_key') || '';
+let SB_URL = 'https://gjakozlokksfcqxszdux.supabase.co';
+let SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdqYWtvemxva2tzZmNxeHN6ZHV4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODAxNTAzNjAsImV4cCI6MjA5NTcyNjM2MH0.mgdpvF4PyTO68PRKqoRFyXoGybNzKuKSmjp3nHawK8o';
 let accounts = [];
 let todayEntry = null;
 
 // ── SUPABASE ──────────────────────────────────────────────────────
 async function sb(path, opts = {}) {
-  if (!SB_URL || !SB_KEY) { snack('Setup Supabase in Settings first ⚙️', 'err'); return null; }
   const url = SB_URL.replace(/\/$/, '') + '/rest/v1/' + path;
   const headers = {
     'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY,
@@ -722,14 +721,7 @@ async function init() {
   document.getElementById('export-from').value = iso.slice(0,7)+'-01';
   document.getElementById('export-to').value = iso;
   document.getElementById('setup-sql-box').textContent = SETUP_SQL;
-  if (SB_URL) document.getElementById('sb-url').value = SB_URL;
-  if (SB_KEY) document.getElementById('sb-key').value = SB_KEY;
 
-  if (!SB_URL || !SB_KEY) {
-    document.getElementById('accounts-grid').innerHTML = '<div class="empty-state"><div class="empty-icon">⚙️</div><p>Configure Supabase in Setup to start</p></div>';
-    document.getElementById('loan-list').innerHTML = '';
-    return;
-  }
   await loadAccounts();
   await loadTodayEOD();
   await loadLoans();
