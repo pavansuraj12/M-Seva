@@ -1,0 +1,1696 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+  <title>M-Seva Finance</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;600;700&family=Noto+Sans+Telugu:wght@400;500;600&display=swap"
+    rel="stylesheet">
+  <style>
+    :root {
+      --primary: #1565C0;
+      --primary-container: #E3F2FD;
+      --on-primary: #ffffff;
+      --on-primary-container: #0D47A1;
+      --secondary: #1976D2;
+      --surface: #ffffff;
+      --surface-variant: #F5F5F5;
+      --surface-container: #FAFAFA;
+      --on-surface: #1C1B1F;
+      --on-surface-var: #49454F;
+      --outline: #CAC4D0;
+      --outline-strong: #79747E;
+      --error: #B00020;
+      --error-container: #FDECEA;
+      --warning: #E65100;
+      --warning-container: #FFF3E0;
+      --success: #1B5E20;
+      --success-container: #E8F5E9;
+      --amber: #F57F17;
+      --amber-container: #FFFDE7;
+      --radius-xs: 4px;
+      --radius-sm: 8px;
+      --radius-md: 12px;
+      --radius-lg: 16px;
+      --radius-xl: 28px;
+      --elevation-1: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.08);
+      --elevation-2: 0 2px 6px rgba(0, 0, 0, 0.10), 0 2px 4px rgba(0, 0, 0, 0.08);
+      --font: 'Noto Sans', 'Noto Sans Telugu', sans-serif;
+    }
+
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    html {
+      font-size: 16px;
+    }
+
+    body {
+      font-family: var(--font);
+      background: #F0F4F8;
+      color: var(--on-surface);
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── TOP APP BAR ── */
+    .top-bar {
+      background: var(--primary);
+      color: var(--on-primary);
+      padding: 0 16px;
+      height: 64px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      position: sticky;
+      top: 0;
+      z-index: 200;
+      box-shadow: var(--elevation-2);
+    }
+
+    .top-bar-icon {
+      font-size: 22px;
+    }
+
+    .top-bar-title {
+      font-size: 20px;
+      font-weight: 600;
+      flex: 1;
+    }
+
+    .top-bar-date {
+      font-size: 13px;
+      opacity: 0.85;
+    }
+
+    /* ── BOTTOM NAV ── */
+    .bottom-nav {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      z-index: 200;
+      background: var(--surface);
+      border-top: 1px solid var(--outline);
+      display: flex;
+      height: 72px;
+      box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.08);
+    }
+
+    .nav-btn {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      cursor: pointer;
+      border: none;
+      background: transparent;
+      color: var(--on-surface-var);
+      padding: 8px 4px;
+      font-family: var(--font);
+      transition: color 0.2s;
+    }
+
+    .nav-btn .nav-icon-wrap {
+      width: 64px;
+      height: 32px;
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+      transition: background 0.2s;
+    }
+
+    .nav-btn .nav-label {
+      font-size: 12px;
+      font-weight: 500;
+    }
+
+    .nav-btn.active {
+      color: var(--primary);
+    }
+
+    .nav-btn.active .nav-icon-wrap {
+      background: var(--primary-container);
+    }
+
+    /* ── MAIN SCROLL AREA ── */
+    .main {
+      padding: 16px 16px 96px;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .page {
+      display: none;
+    }
+
+    .page.active {
+      display: block;
+    }
+
+    /* ── SECTION HEADER ── */
+    .section-label {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--primary);
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+      margin: 20px 0 10px;
+      padding-left: 4px;
+    }
+
+    /* ── CARDS ── */
+    .card {
+      background: var(--surface);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--elevation-1);
+      margin-bottom: 12px;
+      overflow: hidden;
+    }
+
+    .card-header {
+      padding: 16px 16px 0;
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--on-surface-var);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .card-body {
+      padding: 12px 16px 16px;
+    }
+
+    /* ── STATUS BANNER ── */
+    .status-banner {
+      border-radius: var(--radius-md);
+      padding: 12px 16px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 12px;
+      font-size: 14px;
+      font-weight: 500;
+    }
+
+    .status-banner.saved {
+      background: var(--success-container);
+      color: var(--success);
+    }
+
+    .status-banner.unsaved {
+      background: var(--warning-container);
+      color: var(--warning);
+    }
+
+    .status-icon {
+      font-size: 22px;
+    }
+
+    /* ── ACCOUNT INPUTS ── */
+    .account-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+
+    .account-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 0;
+      border-bottom: 1px solid var(--outline);
+    }
+
+    .account-row:last-child {
+      border-bottom: none;
+    }
+
+    .account-name {
+      flex: 1;
+      font-size: 15px;
+      font-weight: 500;
+      color: var(--on-surface);
+    }
+
+    .account-input-wrap {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      background: var(--surface-variant);
+      border-radius: var(--radius-sm);
+      padding: 0 10px;
+      border: 1.5px solid var(--outline);
+      transition: border-color 0.2s;
+    }
+
+    .account-input-wrap:focus-within {
+      border-color: var(--primary);
+      background: #fff;
+    }
+
+    .account-input-wrap .rupee {
+      font-size: 14px;
+      color: var(--on-surface-var);
+      font-weight: 600;
+    }
+
+    .account-input-wrap input {
+      border: none;
+      background: transparent;
+      width: 100px;
+      font-size: 15px;
+      font-weight: 500;
+      padding: 10px 4px;
+      font-family: var(--font);
+      color: var(--on-surface);
+      outline: none;
+      text-align: right;
+    }
+
+    .account-input-wrap input:disabled {
+      color: var(--on-surface);
+      opacity: 0.9;
+    }
+
+    /* ── DENOMINATION GRID ── */
+    .denom-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-top: 4px;
+    }
+
+    .denom-card {
+      background: var(--surface-variant);
+      border-radius: var(--radius-sm);
+      border: 1.5px solid var(--outline);
+      padding: 10px 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      transition: border-color 0.2s;
+    }
+
+    .denom-card:focus-within {
+      border-color: var(--primary);
+      background: #fff;
+    }
+
+    .denom-note {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--primary);
+    }
+
+    .denom-x {
+      font-size: 12px;
+      color: var(--on-surface-var);
+    }
+
+    .denom-card input {
+      border: none;
+      background: transparent;
+      font-size: 18px;
+      font-weight: 600;
+      font-family: var(--font);
+      color: var(--on-surface);
+      outline: none;
+      width: 100%;
+      padding: 2px 0;
+    }
+
+    .denom-subtotal {
+      font-size: 12px;
+      color: var(--on-surface-var);
+      margin-top: 2px;
+    }
+
+    .cash-total-bar {
+      background: var(--primary-container);
+      border-radius: var(--radius-md);
+      padding: 14px 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 12px;
+    }
+
+    .cash-total-label {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--on-primary-container);
+    }
+
+    .cash-total-val {
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--primary);
+    }
+
+    /* ── BUTTONS ── */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      border: none;
+      border-radius: var(--radius-xl);
+      cursor: pointer;
+      font-family: var(--font);
+      font-weight: 600;
+      letter-spacing: 0.2px;
+      transition: all 0.15s;
+      text-decoration: none;
+    }
+
+    .btn:active {
+      transform: scale(0.97);
+    }
+
+    .btn-filled {
+      background: var(--primary);
+      color: var(--on-primary);
+      font-size: 16px;
+      padding: 14px 28px;
+      min-height: 52px;
+      width: 100%;
+      box-shadow: var(--elevation-1);
+    }
+
+    .btn-filled:hover {
+      background: #1976D2;
+    }
+
+    .btn-filled-tonal {
+      background: var(--primary-container);
+      color: var(--on-primary-container);
+      font-size: 15px;
+      padding: 12px 24px;
+      min-height: 48px;
+    }
+
+    .btn-outlined {
+      background: transparent;
+      color: var(--primary);
+      border: 1.5px solid var(--primary);
+      font-size: 14px;
+      padding: 10px 20px;
+      min-height: 44px;
+    }
+
+    .btn-text {
+      background: transparent;
+      color: var(--primary);
+      font-size: 14px;
+      padding: 8px 16px;
+    }
+
+    .btn-danger-outlined {
+      background: transparent;
+      color: var(--error);
+      border: 1.5px solid var(--error);
+      font-size: 13px;
+      padding: 8px 14px;
+      min-height: 38px;
+    }
+
+    .btn-success-outlined {
+      background: transparent;
+      color: var(--success);
+      border: 1.5px solid var(--success);
+      font-size: 13px;
+      padding: 8px 14px;
+      min-height: 38px;
+    }
+
+    .btn-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: var(--primary-container);
+      color: var(--primary);
+      font-size: 22px;
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.15s;
+    }
+
+    .btn-icon:active {
+      transform: scale(0.95);
+    }
+
+    .btn-sm {
+      font-size: 13px;
+      padding: 8px 16px;
+      min-height: 38px;
+    }
+
+    /* ── FAB ── */
+    .fab {
+      position: fixed;
+      right: 20px;
+      bottom: 88px;
+      z-index: 150;
+      background: var(--primary);
+      color: var(--on-primary);
+      width: 60px;
+      height: 60px;
+      border-radius: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 28px;
+      cursor: pointer;
+      border: none;
+      box-shadow: 0 4px 12px rgba(21, 101, 192, 0.4);
+      transition: all 0.2s;
+    }
+
+    .fab:active {
+      transform: scale(0.93);
+    }
+
+    /* ── LOAN CARDS ── */
+    .loan-item {
+      background: var(--surface);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--elevation-1);
+      padding: 16px;
+      margin-bottom: 10px;
+      border-left: 4px solid var(--amber);
+    }
+
+    .loan-item.collected {
+      border-left-color: var(--outline);
+      opacity: 0.6;
+    }
+
+    .loan-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+    }
+
+    .loan-name {
+      font-size: 16px;
+      font-weight: 600;
+    }
+
+    .loan-amount-badge {
+      background: var(--amber-container);
+      color: var(--amber);
+      border-radius: var(--radius-sm);
+      padding: 4px 10px;
+      font-size: 16px;
+      font-weight: 700;
+    }
+
+    .loan-amount-badge.collected-badge {
+      background: var(--success-container);
+      color: var(--success);
+    }
+
+    .loan-meta {
+      font-size: 13px;
+      color: var(--on-surface-var);
+      margin-top: 4px;
+    }
+
+    .loan-actions {
+      display: flex;
+      gap: 8px;
+      margin-top: 12px;
+      flex-wrap: wrap;
+    }
+
+    /* ── CHIPS / BADGE ── */
+    .chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      border-radius: 8px;
+      padding: 4px 10px;
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    .chip-open {
+      background: var(--amber-container);
+      color: var(--amber);
+    }
+
+    .chip-collected {
+      background: var(--success-container);
+      color: var(--success);
+    }
+
+    /* ── HISTORY ── */
+    .history-item {
+      background: var(--surface);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--elevation-1);
+      padding: 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+      cursor: pointer;
+      transition: box-shadow 0.15s;
+    }
+
+    .history-item:active {
+      box-shadow: var(--elevation-2);
+    }
+
+    .history-date-label {
+      font-size: 16px;
+      font-weight: 600;
+    }
+
+    .history-day-label {
+      font-size: 13px;
+      color: var(--on-surface-var);
+      margin-top: 2px;
+    }
+
+    .history-chevron {
+      font-size: 22px;
+      color: var(--on-surface-var);
+    }
+
+    /* ── DETAIL VIEW ── */
+    .detail-account-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 11px 0;
+      border-bottom: 1px solid var(--outline);
+      font-size: 15px;
+    }
+
+    .detail-account-row:last-child {
+      border-bottom: none;
+    }
+
+    .detail-account-val {
+      font-weight: 600;
+      color: var(--primary);
+    }
+
+    /* ── EXPORT ── */
+    .export-field {
+      margin-bottom: 16px;
+    }
+
+    .export-field label {
+      display: block;
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--on-surface-var);
+      margin-bottom: 8px;
+    }
+
+    .export-field input {
+      width: 100%;
+      background: var(--surface);
+      border: 1.5px solid var(--outline);
+      border-radius: var(--radius-md);
+      padding: 14px;
+      font-size: 16px;
+      font-family: var(--font);
+      color: var(--on-surface);
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .export-field input:focus {
+      border-color: var(--primary);
+    }
+
+    /* ── SETUP ── */
+    .setup-field {
+      margin-bottom: 14px;
+    }
+
+    .setup-field label {
+      display: block;
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 8px;
+      color: var(--on-surface-var);
+    }
+
+    .setup-field input {
+      width: 100%;
+      background: var(--surface);
+      border: 1.5px solid var(--outline);
+      border-radius: var(--radius-md);
+      padding: 14px;
+      font-size: 15px;
+      font-family: var(--font);
+      color: var(--on-surface);
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .setup-field input:focus {
+      border-color: var(--primary);
+    }
+
+    .sql-box {
+      background: #F0F4F8;
+      border-radius: var(--radius-md);
+      padding: 12px;
+      font-size: 12px;
+      font-family: monospace;
+      color: var(--on-surface-var);
+      border: 1px solid var(--outline);
+      max-height: 220px;
+      overflow-y: auto;
+      white-space: pre;
+      line-height: 1.6;
+    }
+
+    .manage-account-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 0;
+      border-bottom: 1px solid var(--outline);
+      font-size: 15px;
+      font-weight: 500;
+    }
+
+    .manage-account-row:last-child {
+      border-bottom: none;
+    }
+
+    /* ── MODAL ── */
+    .modal-backdrop {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 500;
+      align-items: flex-end;
+      justify-content: center;
+    }
+
+    .modal-backdrop.open {
+      display: flex;
+    }
+
+    .modal-sheet {
+      background: var(--surface);
+      border-radius: 28px 28px 0 0;
+      padding: 20px 20px 40px;
+      width: 100%;
+      max-width: 600px;
+      animation: slideUp 0.25s ease;
+    }
+
+    @keyframes slideUp {
+      from {
+        transform: translateY(100%);
+      }
+
+      to {
+        transform: translateY(0);
+      }
+    }
+
+    .modal-handle {
+      width: 36px;
+      height: 4px;
+      background: var(--outline);
+      border-radius: 2px;
+      margin: 0 auto 20px;
+    }
+
+    .modal-title {
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 20px;
+      color: var(--on-surface);
+    }
+
+    .modal-field {
+      margin-bottom: 14px;
+    }
+
+    .modal-field label {
+      display: block;
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 6px;
+      color: var(--on-surface-var);
+    }
+
+    .modal-field input,
+    .modal-field select {
+      width: 100%;
+      background: var(--surface-variant);
+      border: 1.5px solid var(--outline);
+      border-radius: var(--radius-md);
+      padding: 14px;
+      font-size: 16px;
+      font-family: var(--font);
+      color: var(--on-surface);
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .modal-field input:focus {
+      border-color: var(--primary);
+      background: #fff;
+    }
+
+    .modal-actions {
+      display: flex;
+      gap: 10px;
+      margin-top: 20px;
+    }
+
+    .modal-actions .btn {
+      flex: 1;
+    }
+
+    /* ── SNACKBAR ── */
+    .snackbar {
+      position: fixed;
+      bottom: 90px;
+      left: 50%;
+      transform: translateX(-50%) translateY(20px);
+      background: #323232;
+      color: #fff;
+      padding: 14px 20px;
+      border-radius: var(--radius-md);
+      font-size: 14px;
+      font-weight: 500;
+      z-index: 9999;
+      opacity: 0;
+      transition: all 0.3s;
+      white-space: nowrap;
+      box-shadow: var(--elevation-2);
+      max-width: calc(100vw - 32px);
+    }
+
+    .snackbar.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    /* ── DIVIDER ── */
+    .divider {
+      border: none;
+      border-top: 1px solid var(--outline);
+      margin: 16px 0;
+    }
+
+    /* ── EMPTY STATE ── */
+    .empty-state {
+      text-align: center;
+      padding: 32px 20px;
+      color: var(--on-surface-var);
+    }
+
+    .empty-state .empty-icon {
+      font-size: 48px;
+      margin-bottom: 8px;
+      opacity: 0.4;
+    }
+
+    .empty-state p {
+      font-size: 15px;
+    }
+
+    /* ── LOADING ── */
+    .loading-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 20px;
+      color: var(--on-surface-var);
+      font-size: 14px;
+    }
+
+    .spinner {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      border: 2.5px solid var(--outline);
+      border-top-color: var(--primary);
+      animation: spin 0.7s linear infinite;
+      flex-shrink: 0;
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    /* ── UTILS ── */
+    .flex-between {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .mt-8 {
+      margin-top: 8px;
+    }
+
+    .mt-12 {
+      margin-top: 12px;
+    }
+
+    .mt-16 {
+      margin-top: 16px;
+    }
+
+    .text-muted {
+      color: var(--on-surface-var);
+      font-size: 13px;
+    }
+
+    /* ── DESKTOP ── */
+    @media (min-width: 600px) {
+      .denom-grid {
+        grid-template-columns: repeat(4, 1fr);
+      }
+
+      .bottom-nav {
+        left: 50%;
+        transform: translateX(-50%);
+        max-width: 600px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- TOP BAR -->
+  <div class="top-bar">
+    <span class="top-bar-icon">📋</span>
+    <span class="top-bar-title">M-Seva Finance</span>
+    <span class="top-bar-date" id="top-date">—</span>
+  </div>
+
+  <main class="main">
+
+    <!-- ══════════ TODAY PAGE ══════════ -->
+    <div class="page active" id="page-home">
+      <div id="eod-status-area"></div>
+
+      <div class="section-label">End of Day Balances</div>
+
+      <div class="card">
+        <div class="card-header">
+          Account Balances
+          <button class="btn btn-text btn-sm" id="edit-eod-btn" onclick="editEOD()" style="display:none">Edit</button>
+        </div>
+        <div class="card-body">
+          <div class="account-list" id="accounts-grid">
+            <div class="loading-row">
+              <div class="spinner"></div> Loading accounts…
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">Cash Denomination Count</div>
+        <div class="card-body">
+          <div class="denom-grid">
+            <div class="denom-card">
+              <div class="denom-note">₹500</div>
+              <input type="number" id="d500" placeholder="0" min="0" inputmode="numeric" oninput="calcDenom()">
+              <div class="denom-subtotal" id="sub500">= ₹0</div>
+            </div>
+            <div class="denom-card">
+              <div class="denom-note">₹200</div>
+              <input type="number" id="d200" placeholder="0" min="0" inputmode="numeric" oninput="calcDenom()">
+              <div class="denom-subtotal" id="sub200">= ₹0</div>
+            </div>
+            <div class="denom-card">
+              <div class="denom-note">₹100</div>
+              <input type="number" id="d100" placeholder="0" min="0" inputmode="numeric" oninput="calcDenom()">
+              <div class="denom-subtotal" id="sub100">= ₹0</div>
+            </div>
+            <div class="denom-card">
+              <div class="denom-note">₹50</div>
+              <input type="number" id="d50" placeholder="0" min="0" inputmode="numeric" oninput="calcDenom()">
+              <div class="denom-subtotal" id="sub50">= ₹0</div>
+            </div>
+            <div class="denom-card">
+              <div class="denom-note">₹20</div>
+              <input type="number" id="d20" placeholder="0" min="0" inputmode="numeric" oninput="calcDenom()">
+              <div class="denom-subtotal" id="sub20">= ₹0</div>
+            </div>
+            <div class="denom-card">
+              <div class="denom-note">₹10</div>
+              <input type="number" id="d10" placeholder="0" min="0" inputmode="numeric" oninput="calcDenom()">
+              <div class="denom-subtotal" id="sub10">= ₹0</div>
+            </div>
+            <div class="denom-card" style="grid-column: 1 / -1;">
+              <div class="denom-note">Coins (₹)</div>
+              <input type="number" id="dcoins" placeholder="0.00" min="0" step="0.01" inputmode="decimal"
+                oninput="calcDenom()">
+              <div class="denom-subtotal" id="subcoins">= ₹0</div>
+            </div>
+          </div>
+          <div class="cash-total-bar">
+            <span class="cash-total-label">💵 Cash Total</span>
+            <span class="cash-total-val" id="denom-total">₹0.00</span>
+          </div>
+        </div>
+      </div>
+
+      <button class="btn btn-filled" id="save-eod-btn" onclick="saveEOD()">
+        Save End of Day Entry
+      </button>
+
+      <!-- LOANS -->
+      <div class="section-label" style="margin-top:24px">Outstanding Loans</div>
+      <div id="loan-list">
+        <div class="loading-row">
+          <div class="spinner"></div> Loading loans…
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════ HISTORY PAGE ══════════ -->
+    <div class="page" id="page-history">
+      <div id="history-detail" style="display:none">
+        <button class="btn btn-text" onclick="closeDetail()" style="margin-bottom:12px; padding-left:0">
+          ← Back to History
+        </button>
+        <div class="section-label" id="detail-date-label">—</div>
+        <div class="card">
+          <div class="card-header">Account Balances</div>
+          <div class="card-body">
+            <div id="detail-balances"></div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-header">Cash Denominations</div>
+          <div class="card-body">
+            <div id="detail-denoms"></div>
+          </div>
+        </div>
+      </div>
+
+      <div id="history-list-view">
+        <div class="section-label">Past Entries</div>
+        <div id="history-list">
+          <div class="loading-row">
+            <div class="spinner"></div> Loading…
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════ EXPORT PAGE ══════════ -->
+    <div class="page" id="page-export">
+      <div class="section-label">Export to Excel</div>
+      <div class="card">
+        <div class="card-body">
+          <div class="export-field">
+            <label>From Date</label>
+            <input type="date" id="export-from">
+          </div>
+          <div class="export-field">
+            <label>To Date</label>
+            <input type="date" id="export-to">
+          </div>
+          <button class="btn btn-filled" onclick="exportExcel()">
+            ⬇ Download Excel File
+          </button>
+          <div id="export-status"
+            style="margin-top:12px; font-size:14px; color:var(--on-surface-var); text-align:center;"></div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header">What's included</div>
+        <div class="card-body">
+          <p style="font-size:14px; color:var(--on-surface-var); line-height:1.7">
+            The Excel file will have two sheets:<br>
+            <strong>EOD Balances</strong> — daily closing balances for all accounts with cash denomination
+            breakdown.<br>
+            <strong>Loans</strong> — all loans (open and collected) in the selected date range.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════ SETUP PAGE ══════════ -->
+    <div class="page" id="page-setup">
+      <div class="section-label">Manage Accounts</div>
+      <div class="card">
+        <div class="card-body">
+          <div id="accounts-manage-list"></div>
+          <hr class="divider">
+          <div style="display:flex; gap:10px; align-items:flex-end">
+            <div style="flex:1">
+              <label
+                style="font-size:13px; font-weight:600; color:var(--on-surface-var); display:block; margin-bottom:6px">New
+                Account Name</label>
+              <input type="text" id="new-account-name" placeholder="e.g. PhonePe Wallet"
+                style="width:100%; background:var(--surface-variant); border:1.5px solid var(--outline); border-radius:var(--radius-md); padding:13px; font-size:15px; font-family:var(--font); outline:none">
+            </div>
+            <button class="btn btn-filled-tonal" onclick="addAccount()" style="min-width:72px; height:50px">Add</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- FAB: Add Loan (only on home page) -->
+  <button class="fab" id="fab-loan" onclick="openLoanModal()" aria-label="Add Loan" title="Add Loan">+</button>
+
+  <!-- BOTTOM NAV -->
+  <nav class="bottom-nav">
+    <button class="nav-btn active" data-page="home">
+      <div class="nav-icon-wrap">🏠</div>
+      <span class="nav-label">Today</span>
+    </button>
+    <button class="nav-btn" data-page="history">
+      <div class="nav-icon-wrap">📅</div>
+      <span class="nav-label">History</span>
+    </button>
+    <button class="nav-btn" data-page="export">
+      <div class="nav-icon-wrap">📊</div>
+      <span class="nav-label">Export</span>
+    </button>
+    <button class="nav-btn" data-page="setup">
+      <div class="nav-icon-wrap">⚙️</div>
+      <span class="nav-label">Setup</span>
+    </button>
+  </nav>
+
+  <!-- LOAN MODAL (bottom sheet) -->
+  <div class="modal-backdrop" id="loan-modal">
+    <div class="modal-sheet">
+      <div class="modal-handle"></div>
+      <div class="modal-title">Add Customer Loan</div>
+      <div class="modal-field">
+        <label>Customer Name *</label>
+        <input type="text" id="loan-name" placeholder="Full name" autocomplete="off">
+      </div>
+      <div class="modal-field">
+        <label>Phone Number</label>
+        <input type="tel" id="loan-phone" placeholder="10-digit number" inputmode="tel">
+      </div>
+      <div class="modal-field">
+        <label>Amount (₹) *</label>
+        <input type="number" id="loan-amount" placeholder="0" min="0" step="1" inputmode="numeric">
+      </div>
+      <div class="modal-field">
+        <label>Note (optional)</label>
+        <input type="text" id="loan-note" placeholder="e.g. Aadhaar correction, collect tomorrow">
+      </div>
+      <div class="modal-actions">
+        <button class="btn btn-outlined" onclick="closeLoanModal()">Cancel</button>
+        <button class="btn btn-filled" onclick="saveLoan()">Add Loan</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- SNACKBAR -->
+  <div class="snackbar" id="snackbar"></div>
+
+  <!-- SheetJS -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+
+  <script>
+    const DEFAULT_ACCOUNTS = ['Mee1', 'Mee', 'Digi', 'Digital Seva', 'OP-1', 'Paybingo', 'HDFC', 'SBI CA', 'Cash', 'Dhanhind', 'Vishaka', 'HDFC 2'];
+
+    const SETUP_SQL = `-- Run once in Supabase SQL Editor
+
+create table if not exists accounts (
+  id uuid primary key default gen_random_uuid(),
+  name varchar(50) not null unique,
+  sort_order int default 0,
+  created_at timestamptz default now()
+);
+
+create table if not exists eod_entries (
+  id uuid primary key default gen_random_uuid(),
+  entry_date date not null unique,
+  created_at timestamptz default now(),
+  updated_at timestamptz default now()
+);
+
+create table if not exists account_balances (
+  id uuid primary key default gen_random_uuid(),
+  entry_id uuid references eod_entries(id) on delete cascade,
+  account_name varchar(50) not null,
+  balance numeric(12,2) default 0
+);
+
+create table if not exists cash_denominations (
+  id uuid primary key default gen_random_uuid(),
+  entry_id uuid references eod_entries(id) on delete cascade,
+  note_500 int default 0,
+  note_200 int default 0,
+  note_100 int default 0,
+  note_50 int default 0,
+  note_20 int default 0,
+  note_10 int default 0,
+  coins numeric(8,2) default 0,
+  total numeric(12,2) default 0
+);
+
+create table if not exists loans (
+  id uuid primary key default gen_random_uuid(),
+  customer_name varchar(100) not null,
+  customer_phone varchar(15),
+  amount numeric(10,2) not null,
+  note text,
+  status varchar(20) default 'open',
+  created_at timestamptz default now(),
+  updated_at timestamptz default now()
+);
+
+-- Seed default accounts
+insert into accounts (name, sort_order) values
+  ('Mee1',1),('Mee',2),('Digi',3),('Digital Seva',4),
+  ('OP-1',5),('Paybingo',6),('HDFC',7),('SBI CA',8),
+  ('Cash',9),('Dhanhind',10),('Vishaka',11),('HDFC 2',12)
+on conflict (name) do nothing;`;
+
+    let SB_URL = 'https://hfhcdwyujqlrpnllozks.supabase.co';
+    let SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhmaGNkd3l1anFscnBubGxvemtzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODAxNjAwNTYsImV4cCI6MjA5NTczNjA1Nn0.zGr9K_R47zmzax9n5eNMxdMdou961pyhFsAMpBSz1hc';
+    let accounts = [];
+    let todayEntry = null;
+
+    // ── SUPABASE ──────────────────────────────────────────────────────
+    async function sb(path, opts = {}) {
+      const url = SB_URL.replace(/\/$/, '') + '/rest/v1/' + path;
+      const headers = {
+        'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY,
+        'Content-Type': 'application/json',
+        ...(opts.prefer ? { 'Prefer': opts.prefer } : {})
+      };
+      const res = await fetch(url, { ...opts, headers });
+      if (!res.ok) {
+        let msg = res.statusText;
+        try { const e = await res.json(); msg = e.message || e.error || msg; } catch { }
+        throw new Error(msg);
+      }
+      if (res.status === 204) return null;
+      return res.json();
+    }
+    const sbGet = (t, q = '') => sb(t + (q ? '?' + q : ''));
+    const sbPost = (t, b, p = 'return=representation') => sb(t, { method: 'POST', prefer: p, body: JSON.stringify(b) });
+    const sbPatch = (t, q, b) => sb(t + '?' + q, { method: 'PATCH', prefer: 'return=representation', body: JSON.stringify(b) });
+    const sbDel = (t, q) => sb(t + '?' + q, { method: 'DELETE' });
+
+    // ── SNACKBAR ──────────────────────────────────────────────────────
+    let _snackTimer;
+    function snack(msg, type = 'ok') {
+      const el = document.getElementById('snackbar');
+      el.textContent = (type === 'ok' ? '✓ ' : '✕ ') + msg;
+      el.style.background = type === 'ok' ? '#1B5E20' : '#B00020';
+      el.classList.add('show');
+      clearTimeout(_snackTimer);
+      _snackTimer = setTimeout(() => el.classList.remove('show'), 3200);
+    }
+
+    // ── NAV ───────────────────────────────────────────────────────────
+    document.querySelectorAll('.nav-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+        document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+        btn.classList.add('active');
+        const page = btn.dataset.page;
+        document.getElementById('page-' + page).classList.add('active');
+        document.getElementById('fab-loan').style.display = page === 'home' ? 'flex' : 'none';
+        if (page === 'history') loadHistory();
+        if (page === 'setup') initSetup();
+      });
+    });
+
+    // ── INIT ──────────────────────────────────────────────────────────
+    async function init() {
+      const now = new Date();
+      document.getElementById('top-date').textContent = now.toLocaleDateString('en-IN', { day: '2-digit', month: 'short' });
+      const iso = now.toISOString().split('T')[0];
+      document.getElementById('export-from').value = iso.slice(0, 7) + '-01';
+      document.getElementById('export-to').value = iso;
+      document.getElementById('setup-sql-box').textContent = SETUP_SQL;
+
+      await loadAccounts();
+      await loadTodayEOD();
+      await loadLoans();
+    }
+
+    // ── ACCOUNTS ──────────────────────────────────────────────────────
+    async function loadAccounts() {
+      try {
+        const data = await sbGet('accounts', 'order=sort_order.asc');
+        accounts = (data && data.length) ? data : DEFAULT_ACCOUNTS.map((n, i) => ({ name: n, sort_order: i }));
+        renderAccountsGrid();
+      } catch {
+        accounts = DEFAULT_ACCOUNTS.map((n, i) => ({ name: n, sort_order: i }));
+        renderAccountsGrid();
+      }
+    }
+
+    function renderAccountsGrid() {
+      const grid = document.getElementById('accounts-grid');
+      grid.innerHTML = accounts.map(a => {
+        const key = 'bal-' + a.name.replace(/\s+/g, '_');
+        return `<div class="account-row">
+      <span class="account-name">${a.name}</span>
+      <div class="account-input-wrap">
+        <span class="rupee">₹</span>
+        <input type="number" id="${key}" placeholder="0.00" step="0.01" min="0" inputmode="decimal" class="balance-input">
+      </div>
+    </div>`;
+      }).join('');
+    }
+
+    // ── TODAY EOD ─────────────────────────────────────────────────────
+    async function loadTodayEOD() {
+      const today = new Date().toISOString().split('T')[0];
+      try {
+        const entries = await sbGet('eod_entries', `entry_date=eq.${today}`);
+        if (entries && entries.length) {
+          todayEntry = entries[0];
+          await prefillTodayEOD(todayEntry.id);
+          showSavedBanner(true);
+          lockEOD(true);
+        } else {
+          showSavedBanner(false);
+        }
+      } catch { showSavedBanner(false); }
+    }
+
+    function showSavedBanner(saved) {
+      const area = document.getElementById('eod-status-area');
+      const editBtn = document.getElementById('edit-eod-btn');
+      const saveBtn = document.getElementById('save-eod-btn');
+      if (saved) {
+        area.innerHTML = `<div class="status-banner saved"><span class="status-icon">✅</span><div><strong>Today's entry is saved.</strong><br><span style="font-size:13px">Tap Edit if you need to make changes.</span></div></div>`;
+        editBtn.style.display = 'block';
+        saveBtn.style.display = 'none';
+      } else {
+        area.innerHTML = `<div class="status-banner unsaved"><span class="status-icon">📝</span><div><strong>Entry pending for today.</strong><br><span style="font-size:13px">Fill balances and save before closing.</span></div></div>`;
+        editBtn.style.display = 'none';
+        saveBtn.style.display = 'block';
+        saveBtn.textContent = 'Save End of Day Entry';
+      }
+    }
+
+    async function prefillTodayEOD(entryId) {
+      try {
+        const [balances, denoms] = await Promise.all([
+          sbGet('account_balances', `entry_id=eq.${entryId}`),
+          sbGet('cash_denominations', `entry_id=eq.${entryId}`)
+        ]);
+        (balances || []).forEach(b => {
+          const el = document.getElementById('bal-' + b.account_name.replace(/\s+/g, '_'));
+          if (el) el.value = b.balance;
+        });
+        if (denoms && denoms.length) {
+          const d = denoms[0];
+          ['500', '200', '100', '50', '20', '10'].forEach(n => {
+            const el = document.getElementById('d' + n);
+            if (el) el.value = d['note_' + n] || '';
+          });
+          const coins = document.getElementById('dcoins');
+          if (coins) coins.value = d.coins || '';
+          calcDenom();
+        }
+      } catch { }
+    }
+
+    function lockEOD(locked) {
+      document.querySelectorAll('.balance-input, #d500,#d200,#d100,#d50,#d20,#d10,#dcoins').forEach(el => {
+        el.disabled = locked;
+      });
+    }
+
+    function editEOD() {
+      lockEOD(false);
+      showSavedBanner(false);
+      const saveBtn = document.getElementById('save-eod-btn');
+      saveBtn.textContent = 'Update End of Day Entry';
+      saveBtn.style.display = 'block';
+      document.getElementById('edit-eod-btn').style.display = 'none';
+      document.getElementById('eod-status-area').innerHTML = '';
+    }
+
+    async function saveEOD() {
+      const today = new Date().toISOString().split('T')[0];
+      const balances = accounts.map(a => ({
+        account_name: a.name,
+        balance: parseFloat(document.getElementById('bal-' + a.name.replace(/\s+/g, '_'))?.value) || 0
+      }));
+      const denom = {
+        note_500: parseInt(document.getElementById('d500').value) || 0,
+        note_200: parseInt(document.getElementById('d200').value) || 0,
+        note_100: parseInt(document.getElementById('d100').value) || 0,
+        note_50: parseInt(document.getElementById('d50').value) || 0,
+        note_20: parseInt(document.getElementById('d20').value) || 0,
+        note_10: parseInt(document.getElementById('d10').value) || 0,
+        coins: parseFloat(document.getElementById('dcoins').value) || 0,
+        total: parseFloat(document.getElementById('denom-total').textContent.replace(/[₹,]/g, '')) || 0
+      };
+      const saveBtn = document.getElementById('save-eod-btn');
+      saveBtn.disabled = true; saveBtn.textContent = 'Saving…';
+      try {
+        // Upsert the eod_entries row — safe whether it exists or not
+        const upserted = await sb('eod_entries?on_conflict=entry_date', {
+          method: 'POST',
+          prefer: 'return=representation,resolution=merge-duplicates',
+          body: JSON.stringify({ entry_date: today, updated_at: new Date().toISOString() })
+        });
+        const entryId = upserted[0].id;
+        todayEntry = upserted[0];
+        // Delete old child rows then re-insert
+        await Promise.all([
+          sbDel('account_balances', `entry_id=eq.${entryId}`),
+          sbDel('cash_denominations', `entry_id=eq.${entryId}`)
+        ]);
+        await sb('account_balances', { method: 'POST', prefer: 'return=minimal', body: JSON.stringify(balances.map(b => ({ ...b, entry_id: entryId }))) });
+        await sb('cash_denominations', { method: 'POST', prefer: 'return=minimal', body: JSON.stringify({ ...denom, entry_id: entryId }) });
+        snack('Entry saved successfully');
+        showSavedBanner(true);
+        lockEOD(true);
+      } catch (e) {
+        snack('Save failed: ' + e.message, 'err');
+        saveBtn.disabled = false;
+        saveBtn.textContent = 'Save End of Day Entry';
+      }
+    }
+
+    // ── DENOMINATIONS ─────────────────────────────────────────────────
+    function calcDenom() {
+      const pairs = [[500, 'd500'], [200, 'd200'], [100, 'd100'], [50, 'd50'], [20, 'd20'], [10, 'd10']];
+      let total = 0;
+      pairs.forEach(([val, id]) => {
+        const count = parseInt(document.getElementById(id).value) || 0;
+        const sub = val * count;
+        total += sub;
+        const subEl = document.getElementById('sub' + val);
+        if (subEl) subEl.textContent = '= ₹' + sub.toLocaleString('en-IN');
+      });
+      const coins = parseFloat(document.getElementById('dcoins').value) || 0;
+      total += coins;
+      const subCoins = document.getElementById('subcoins');
+      if (subCoins) subCoins.textContent = '= ₹' + coins.toFixed(2);
+      document.getElementById('denom-total').textContent = '₹' + total.toLocaleString('en-IN', { minimumFractionDigits: 2 });
+    }
+
+    // ── LOANS ─────────────────────────────────────────────────────────
+    async function loadLoans() {
+      const list = document.getElementById('loan-list');
+      try {
+        const loans = await sbGet('loans', 'status=eq.open&order=created_at.desc');
+        renderLoans(loans || []);
+      } catch {
+        list.innerHTML = '<div class="empty-state"><p>Could not load loans.</p></div>';
+      }
+    }
+
+    function renderLoans(loans) {
+      const list = document.getElementById('loan-list');
+      if (!loans.length) {
+        list.innerHTML = '<div class="empty-state"><div class="empty-icon">🎉</div><p>No outstanding loans</p></div>';
+        return;
+      }
+      list.innerHTML = loans.map(l => `
+    <div class="loan-item" id="lc-${l.id}">
+      <div class="loan-top">
+        <div>
+          <div class="loan-name">${l.customer_name}</div>
+          <div class="loan-meta">
+            ${l.customer_phone ? '📞 ' + l.customer_phone + '&nbsp;&nbsp;' : ''}
+            📅 ${new Date(l.created_at).toLocaleDateString('en-IN')}
+            ${l.note ? '<br>📝 ' + l.note : ''}
+          </div>
+        </div>
+        <div class="loan-amount-badge">₹${parseFloat(l.amount).toLocaleString('en-IN')}</div>
+      </div>
+      <div class="loan-actions">
+        <span class="chip chip-open">Pending</span>
+        <button class="btn btn-success-outlined btn-sm" onclick="collectLoan('${l.id}')">✓ Collected</button>
+        <button class="btn btn-danger-outlined btn-sm" onclick="deleteLoan('${l.id}')">Delete</button>
+      </div>
+    </div>
+  `).join('');
+    }
+
+    function openLoanModal() { document.getElementById('loan-modal').classList.add('open'); }
+    function closeLoanModal() {
+      document.getElementById('loan-modal').classList.remove('open');
+      ['loan-name', 'loan-phone', 'loan-amount', 'loan-note'].forEach(id => document.getElementById(id).value = '');
+    }
+    document.getElementById('loan-modal').addEventListener('click', e => {
+      if (e.target === e.currentTarget) closeLoanModal();
+    });
+
+    async function saveLoan() {
+      const name = document.getElementById('loan-name').value.trim();
+      const phone = document.getElementById('loan-phone').value.trim();
+      const amount = parseFloat(document.getElementById('loan-amount').value);
+      const note = document.getElementById('loan-note').value.trim();
+      if (!name || !amount || amount <= 0) { snack('Name and amount are required', 'err'); return; }
+      try {
+        await sbPost('loans', { customer_name: name, customer_phone: phone || null, amount, note: note || null });
+        snack('Loan added');
+        closeLoanModal();
+        await loadLoans();
+      } catch (e) { snack('Error: ' + e.message, 'err'); }
+    }
+
+    async function collectLoan(id) {
+      try {
+        await sbPatch('loans', `id=eq.${id}`, { status: 'collected', updated_at: new Date().toISOString() });
+        snack('Marked as collected ✓');
+        await loadLoans();
+      } catch (e) { snack('Error: ' + e.message, 'err'); }
+    }
+
+    async function deleteLoan(id) {
+      if (!confirm('Delete this loan entry?')) return;
+      try {
+        await sbDel('loans', `id=eq.${id}`);
+        snack('Deleted');
+        await loadLoans();
+      } catch (e) { snack('Error: ' + e.message, 'err'); }
+    }
+
+    // ── HISTORY ───────────────────────────────────────────────────────
+    async function loadHistory() {
+      document.getElementById('history-detail').style.display = 'none';
+      document.getElementById('history-list-view').style.display = 'block';
+      const list = document.getElementById('history-list');
+      list.innerHTML = '<div class="loading-row"><div class="spinner"></div> Loading…</div>';
+      try {
+        const entries = await sbGet('eod_entries', 'order=entry_date.desc&limit=60');
+        if (!entries || !entries.length) {
+          list.innerHTML = '<div class="empty-state"><div class="empty-icon">📅</div><p>No entries yet</p></div>';
+          return;
+        }
+        list.innerHTML = entries.map(e => `
+      <div class="history-item" onclick="showDetail('${e.id}','${e.entry_date}')">
+        <div>
+          <div class="history-date-label">${fmtDate(e.entry_date)}</div>
+          <div class="history-day-label">${fmtDay(e.entry_date)}</div>
+        </div>
+        <span class="history-chevron">›</span>
+      </div>
+    `).join('');
+      } catch {
+        list.innerHTML = '<div class="empty-state"><p>Error loading history</p></div>';
+      }
+    }
+
+    async function showDetail(entryId, entryDate) {
+      document.getElementById('history-list-view').style.display = 'none';
+      document.getElementById('history-detail').style.display = 'block';
+      document.getElementById('detail-date-label').textContent = fmtDay(entryDate) + ', ' + fmtDate(entryDate);
+
+      const [balances, denoms] = await Promise.all([
+        sbGet('account_balances', `entry_id=eq.${entryId}`),
+        sbGet('cash_denominations', `entry_id=eq.${entryId}`)
+      ]);
+
+      const balEl = document.getElementById('detail-balances');
+      balEl.innerHTML = (balances || []).map(b => `
+    <div class="detail-account-row">
+      <span>${b.account_name}</span>
+      <span class="detail-account-val">₹${parseFloat(b.balance).toLocaleString('en-IN', { minimumFractionDigits: 2 })}</span>
+    </div>
+  `).join('') || '<p class="text-muted">No data</p>';
+
+      const dEl = document.getElementById('detail-denoms');
+      if (denoms && denoms.length) {
+        const d = denoms[0];
+        const rows = [
+          ['₹500 notes', d.note_500, 500 * d.note_500],
+          ['₹200 notes', d.note_200, 200 * d.note_200],
+          ['₹100 notes', d.note_100, 100 * d.note_100],
+          ['₹50 notes', d.note_50, 50 * d.note_50],
+          ['₹20 notes', d.note_20, 20 * d.note_20],
+          ['₹10 notes', d.note_10, 10 * d.note_10],
+          ['Coins', '—', d.coins],
+        ];
+        dEl.innerHTML = rows.map(([label, count, val]) => `
+      <div class="detail-account-row">
+        <span>${label} ${count !== '—' ? '(×' + count + ')' : ''}</span>
+        <span class="detail-account-val">₹${parseFloat(val || 0).toLocaleString('en-IN', { minimumFractionDigits: 2 })}</span>
+      </div>
+    `).join('') + `
+      <div class="detail-account-row" style="border-top:2px solid var(--primary); margin-top:4px;">
+        <span style="font-weight:700">Total Cash</span>
+        <span style="font-size:18px;font-weight:700;color:var(--primary)">₹${parseFloat(d.total || 0).toLocaleString('en-IN', { minimumFractionDigits: 2 })}</span>
+      </div>`;
+      } else { dEl.innerHTML = '<p class="text-muted">No denomination data</p>'; }
+    }
+
+    function closeDetail() {
+      document.getElementById('history-detail').style.display = 'none';
+      document.getElementById('history-list-view').style.display = 'block';
+    }
+
+    // ── EXPORT ────────────────────────────────────────────────────────
+    async function exportExcel() {
+      const from = document.getElementById('export-from').value;
+      const to = document.getElementById('export-to').value;
+      if (!from || !to) { snack('Select a date range first', 'err'); return; }
+      const status = document.getElementById('export-status');
+      status.textContent = '⏳ Fetching data…';
+      try {
+        const entries = await sbGet('eod_entries', `entry_date=gte.${from}&entry_date=lte.${to}&order=entry_date.asc`);
+        if (!entries || !entries.length) { status.textContent = 'No entries found in this date range.'; return; }
+        const ids = entries.map(e => `"${e.id}"`).join(',');
+        const [balances, denoms, loans] = await Promise.all([
+          sbGet('account_balances', `entry_id=in.(${ids})`),
+          sbGet('cash_denominations', `entry_id=in.(${ids})`),
+          sbGet('loans', `created_at=gte.${from}T00:00:00&created_at=lte.${to}T23:59:59&order=created_at.asc`)
+        ]);
+        const wb = XLSX.utils.book_new();
+        // Sheet 1
+        const denomMap = {};
+        (denoms || []).forEach(d => { denomMap[d.entry_id] = d; });
+        const rows1 = [['Date', 'Account', 'Balance', '₹500×', '₹200×', '₹100×', '₹50×', '₹20×', '₹10×', 'Coins', 'Cash Total']];
+        entries.forEach(e => {
+          const d = denomMap[e.id];
+          const accs = (balances || []).filter(b => b.entry_id === e.id);
+          (accs.length ? accs : [{ account_name: '—', balance: 0 }]).forEach((b, i) => {
+            rows1.push([
+              i === 0 ? e.entry_date : '', b.account_name, b.balance,
+              i === 0 && d ? d.note_500 : '', i === 0 && d ? d.note_200 : '', i === 0 && d ? d.note_100 : '',
+              i === 0 && d ? d.note_50 : '', i === 0 && d ? d.note_20 : '', i === 0 && d ? d.note_10 : '',
+              i === 0 && d ? d.coins : '', i === 0 && d ? d.total : ''
+            ]);
+          });
+        });
+        const ws1 = XLSX.utils.aoa_to_sheet(rows1);
+        ws1['!cols'] = [{ wch: 13 }, { wch: 16 }, { wch: 12 }, { wch: 7 }, { wch: 7 }, { wch: 7 }, { wch: 7 }, { wch: 7 }, { wch: 7 }, { wch: 8 }, { wch: 12 }];
+        XLSX.utils.book_append_sheet(wb, ws1, 'EOD Balances');
+        // Sheet 2
+        const rows2 = [['Date', 'Customer Name', 'Phone', 'Amount (₹)', 'Note', 'Status']];
+        (loans || []).forEach(l => {
+          rows2.push([new Date(l.created_at).toLocaleDateString('en-IN'), l.customer_name, l.customer_phone || '', l.amount, l.note || '', l.status]);
+        });
+        const ws2 = XLSX.utils.aoa_to_sheet(rows2);
+        ws2['!cols'] = [{ wch: 13 }, { wch: 22 }, { wch: 14 }, { wch: 12 }, { wch: 26 }, { wch: 12 }];
+        XLSX.utils.book_append_sheet(wb, ws2, 'Loans');
+        XLSX.writeFile(wb, `meeseva_${from}_to_${to}.xlsx`);
+        status.textContent = `✅ Downloaded — ${entries.length} days of data`;
+        snack('Excel file downloaded!');
+      } catch (e) {
+        status.textContent = '❌ Error: ' + e.message;
+        snack('Export failed', 'err');
+      }
+    }
+
+    // ── SETUP ─────────────────────────────────────────────────────────
+    function initSetup() {
+      renderAccountsManage();
+    }
+
+    function saveSupabaseConfig() {
+      SB_URL = document.getElementById('sb-url').value.trim().replace(/\/$/, '');
+      SB_KEY = document.getElementById('sb-key').value.trim();
+      localStorage.setItem('sb_url', SB_URL);
+      localStorage.setItem('sb_key', SB_KEY);
+      document.getElementById('sb-status').textContent = '✅ Saved! Reloading…';
+      setTimeout(() => location.reload(), 1200);
+    }
+
+    function copySql() {
+      navigator.clipboard.writeText(SETUP_SQL).then(() => snack('SQL copied to clipboard'));
+    }
+
+    function renderAccountsManage() {
+      const el = document.getElementById('accounts-manage-list');
+      const list = accounts.length ? accounts : DEFAULT_ACCOUNTS.map(n => ({ name: n }));
+      el.innerHTML = list.map(a => `
+    <div class="manage-account-row">
+      <span>${a.name}</span>
+      <button class="btn btn-danger-outlined btn-sm" onclick="deleteAccount('${a.name}')">Remove</button>
+    </div>
+  `).join('');
+    }
+
+    async function addAccount() {
+      const name = document.getElementById('new-account-name').value.trim();
+      if (!name) return;
+      try {
+        await sb('accounts', { method: 'POST', prefer: 'return=minimal', body: JSON.stringify({ name, sort_order: accounts.length + 1 }) });
+        snack('Account added');
+        document.getElementById('new-account-name').value = '';
+        await loadAccounts();
+        renderAccountsManage();
+      } catch (e) { snack('Error: ' + e.message, 'err'); }
+    }
+
+    async function deleteAccount(name) {
+      if (!confirm(`Remove account "${name}"?`)) return;
+      try {
+        await sbDel('accounts', `name=eq.${encodeURIComponent(name)}`);
+        snack('Account removed');
+        await loadAccounts();
+        renderAccountsManage();
+      } catch (e) { snack('Error: ' + e.message, 'err'); }
+    }
+
+    // ── HELPERS ───────────────────────────────────────────────────────
+    function fmtDate(d) {
+      return new Date(d + 'T00:00:00').toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' });
+    }
+    function fmtDay(d) {
+      return new Date(d + 'T00:00:00').toLocaleDateString('en-IN', { weekday: 'long' });
+    }
+
+    init();
+  </script>
+</body>
+
+</html>
