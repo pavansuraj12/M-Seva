@@ -662,7 +662,7 @@ insert into accounts (name, sort_order) values
 on conflict (name) do nothing;`;
 
 let SB_URL = 'https://hfhcdwyujqlrpnllozks.supabase.co';
-let SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhmaGNkd3l1anFscnBubGxvemtzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODAxNjAwNTYsImV4cCI6MjA5NTczNjA1Nn0.zGr9K_R47zmzax9n5eNMxdMdou961pyhFsAMpBSz1hc';
+let SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdqYWtvemxva2tzZmNxeHN6ZHV4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODAxNTAzNjAsImV4cCI6MjA5NTcyNjM2MH0.mgdpvF4PyTO68PRKqoRFyXoGybNzKuKSmjp3nHawK8o';
 let accounts = [];
 let todayEntry = null;
 
@@ -843,21 +843,21 @@ async function saveEOD() {
   const saveBtn = document.getElementById('save-eod-btn');
   saveBtn.disabled = true; saveBtn.textContent = 'Saving…';
   try {
-    let entryId;
-    if (todayEntry) {
-      entryId = todayEntry.id;
-      await Promise.all([
-        sbDel('account_balances', `entry_id=eq.${entryId}`),
-        sbDel('cash_denominations', `entry_id=eq.${entryId}`)
-      ]);
-      await sbPatch('eod_entries', `id=eq.${entryId}`, { updated_at: new Date().toISOString() });
-    } else {
-      const entry = await sbPost('eod_entries', { entry_date: today });
-      entryId = entry[0].id;
-      todayEntry = entry[0];
-    }
-    await sbPost('account_balances', balances.map(b=>({...b, entry_id:entryId})), 'return=minimal');
-    await sbPost('cash_denominations', {...denom, entry_id:entryId}, 'return=minimal');
+    // Upsert the eod_entries row — safe whether it exists or not
+    const upserted = await sb('eod_entries?on_conflict=entry_date', {
+      method: 'POST',
+      prefer: 'return=representation,resolution=merge-duplicates',
+      body: JSON.stringify({ entry_date: today, updated_at: new Date().toISOString() })
+    });
+    const entryId = upserted[0].id;
+    todayEntry = upserted[0];
+    // Delete old child rows then re-insert
+    await Promise.all([
+      sbDel('account_balances', `entry_id=eq.${entryId}`),
+      sbDel('cash_denominations', `entry_id=eq.${entryId}`)
+    ]);
+    await sb('account_balances', { method:'POST', prefer:'return=minimal', body: JSON.stringify(balances.map(b=>({...b, entry_id:entryId}))) });
+    await sb('cash_denominations', { method:'POST', prefer:'return=minimal', body: JSON.stringify({...denom, entry_id:entryId}) });
     snack('Entry saved successfully');
     showSavedBanner(true);
     lockEOD(true);
@@ -1094,8 +1094,6 @@ async function exportExcel() {
 
 // ── SETUP ─────────────────────────────────────────────────────────
 function initSetup() {
-  document.getElementById('sb-url').value = SB_URL;
-  document.getElementById('sb-key').value = SB_KEY;
   renderAccountsManage();
 }
 
@@ -1127,7 +1125,7 @@ async function addAccount() {
   const name = document.getElementById('new-account-name').value.trim();
   if (!name) return;
   try {
-    await sbPost('accounts', { name, sort_order: accounts.length+1 }, 'return=minimal');
+    await sb('accounts', { method:'POST', prefer:'return=minimal', body: JSON.stringify({ name, sort_order: accounts.length+1 }) });
     snack('Account added');
     document.getElementById('new-account-name').value = '';
     await loadAccounts();
